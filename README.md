@@ -122,6 +122,3 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
 - **Frontend Errors**:
   - If the frontend cannot connect to the backend, verify that the backend server is running and the fetch URL in `App.jsx` is correct.
   - Check the browser console for CORS-related errors and adjust the CORS settings in `main.py` if needed.
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for details (if applicable).
