@@ -76,6 +76,7 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
 2. Install dependencies:
    ```bash
    npm install
+   npm install @mui/material @emotion/react @emotion/styled
    ```
 3. Start the development server:
    ```bash
