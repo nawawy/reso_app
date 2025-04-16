@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+langchain
+transformers
+torch
+python-dotenv
+requests
+langchain_community
+bitsandbytes
+accelerate
+llama-cpp-python
+nltk
+lxml_html_clean
+newspaper3k
+numpy
+openai
+spacy
