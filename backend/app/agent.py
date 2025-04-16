@@ -132,7 +132,7 @@ async def run_agent(prompt: str, schema: str):
     if not results:
         return {"error": "No results found or API request failed."}
 
-    urls = [r["link"] for r in results[:1]]  # Take top 5 for now
+    urls = [r["link"] for r in results[:5]]  # Take top 5 for now
 
     result_articles = []
     for url in urls:
