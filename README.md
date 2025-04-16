@@ -77,6 +77,7 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
    ```bash
    npm install
    npm install @mui/material @emotion/react @emotion/styled
+   npm install tailwindcss @tailwindcss/vite
    ```
 3. Start the development server:
    ```bash
