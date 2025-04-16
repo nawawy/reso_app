@@ -88,13 +88,13 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
 
 ## Usage
 1. Open the frontend in your browser.
-2. Enter a search prompt (e.g., "Elon Musk biography") and an optional schema in JSON format (e.g., `["title", "authors", "date_of_birth"]`).
+2. Enter a search prompt (e.g., "Elon Musk biography") and an optional schema in JSON format (e.g., `["title", "authors", "summary"]`).
 3. Click "Send" to initiate the search.
 4. The backend will fetch search results, scrape articles, extract data, and display the results in the chat interface.
 
 ## Example
 - **Prompt**: "Elon Musk biography"
-- **Schema**: `["title", "authors", "date_of_birth"]`
+- **Schema**: `["title", "authors", "summary"]`
 - **Output**: The chat will display extracted data from the top search result, such as the article title, authors, and any identified dates of birth.
 
 ## Dependencies
