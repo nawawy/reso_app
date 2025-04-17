@@ -3,6 +3,8 @@
 ## Overview
 This project implements a full-stack AI-powered search agent called **Reso Researcher Chat Agent**. It combines a Python-based backend with a React frontend to perform web searches, scrape articles, and extract structured data based on user-defined schemas. The backend leverages APIs like Serper for search and OpenAI for data extraction, while the frontend provides a user-friendly chat interface for interaction.
 
+I tried fisrt open source llm models like mistral and llama but since I run on CPU it takes a lot of time to get the answers so I used gpt api instead to get use of server GPUs.
+
 ## Project Structure
 
 - **backend/**: Contains the Python backend code.
