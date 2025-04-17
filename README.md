@@ -189,3 +189,14 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
 - **Frontend Errors**:
   - If the frontend cannot connect to the backend, verify that the backend server is running and the fetch URL in `App.jsx` is correct.
   - Check the browser console for CORS-related errors and adjust the CORS settings in `main.py` if needed.
+
+  ## Future Improvement Suggestions
+
+- **Enhanced Error Handling**: Add more detailed error messages and logging for both backend and frontend to improve debugging and user feedback.
+- **Schema Validation**: Implement stricter schema validation on the frontend and backend to ensure users provide valid JSON arrays for the schema field.
+- **Caching Mechanism**: Introduce caching (e.g., Redis) for search results to reduce API calls and improve response times for repeated queries.
+- **Advanced NLP Features**: Expand the NLP capabilities by integrating more advanced models for entity extraction or supporting additional fields like sentiment analysis.
+- **User Authentication**: Add user authentication and session management to allow personalized search histories and settings.
+- **Improved UI/UX**: Enhance the frontend with features like downloadable CSV files, better formatting of results, and a more interactive chat interface (e.g., support for follow-up questions).
+- **Rate Limiting**: Implement rate limiting on the backend to prevent abuse of the API and ensure fair usage of external API keys.
+- **Testing**: Add unit and integration tests for both backend and frontend to ensure reliability and maintainability as the project grows.
