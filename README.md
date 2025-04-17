@@ -38,6 +38,68 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
   - [Serper API](https://serper.dev/) (for search).
   - [OpenAI API](https://openai.com/) (for data extraction).
 
+## Architecture Overview
+
+### Backend (FastAPI)
+
+- **Framework**: FastAPI for building a high-performance API.
+- **Components**:
+  - `main.py`: Defines the FastAPI app and API endpoints.
+  - `agent.py`: Handles search, web scraping, and data extraction using Serper API, OpenAI, and spaCy.
+  - `schemas.py`: Pydantic models for request validation.
+  - `utils.py`: Utility functions for text processing.
+  - `config.py`: Loads environment variables for API keys.
+- **Flow**:
+  1. Receives a search query and schema from the frontend.
+  2. Fetches search results using the Serper API.
+  3. Scrapes articles and extracts data using NLP (spaCy) and OpenAI.
+  4. Returns results in both text and CSV format.
+
+### Frontend (React)
+
+- **Framework**: React with Vite for a fast development experience.
+- **Components**:
+  - `App.jsx`: Main component handling the chat interface, state management, and API calls.
+  - Styling with Material-UI and custom CSS (`App.css`, `index.css`).
+- **Flow**:
+  1. User inputs a search prompt and optional schema.
+  2. Sends a POST request to the backend `/search` endpoint.
+  3. Displays results in a chat-like interface with Material-UI components.
+
+## API Documentation
+
+### Endpoint: `/search`
+
+- **Method**: `POST`
+- **Description**: Processes a search query and returns extracted data based on the provided schema.
+- **Request Body**:
+
+  ```json
+  {
+    "prompt": "string",  // Search query (required)
+    "schema": "string"   // JSON string of fields to extract, e.g., `["title", "authors"]` (required)
+  }
+  ```
+- **Response**:
+  - **Success (200)**:
+
+    ```json
+    {
+      "text_result": "string",  // Formatted text of extracted data
+      "csv_content": "string"   // CSV-formatted data
+    }
+    ```
+  - **Error (400/500)**:
+
+    ```json
+    {
+      "error": "string",
+      "text_result": "",
+      "csv_content": ""
+    }
+    ```
+- **CORS**: Enabled for all origins (adjust `allow_origins` in `main.py` for production).
+
 ## Setup Instructions
 
 ### Backend
