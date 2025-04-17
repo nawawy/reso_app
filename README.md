@@ -67,6 +67,10 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
    ```bash
    cd app
    uvicorn main:app --reload
+
+   If faced errors this might help :
+   python -m uvicorn main:app --reload
+   
    ```
 
 ### Frontend
