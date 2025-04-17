@@ -12,6 +12,6 @@ llama-cpp-python
 nltk
 lxml_html_clean
 newspaper3k
-numpy
+numpy<2.0
 openai
 spacy
