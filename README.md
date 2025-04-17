@@ -66,7 +66,7 @@ This project implements a full-stack AI-powered search agent called **Reso Resea
 6. Run the FastAPI server:
    ```bash
    cd app
-   uvicorn app.main:app --host 0.0.0.0 --port 8000
+   uvicorn main:app --reload
    ```
 
 ### Frontend
