@@ -9,32 +9,32 @@ import {
   CircularProgress,
   createTheme,
   ThemeProvider,
+  Link,
 } from '@mui/material';
 
 const theme = createTheme({
   palette: {
     mode: 'light',
-    primary: {
-      main: '#1976d2',
-    },
-    background: {
-      default: '#e0f2f1', // Light teal gradient base
-      paper: '#ffffff',
-    },
-    text: {
-      primary: '#333333',
-      secondary: '#666666',
-    },
+    primary: { main: '#1976d2' },
+    background: { default: '#e0f2f1', paper: '#ffffff' },
+    text: { primary: '#333333', secondary: '#666666' },
   },
 });
 
 function App() {
   const [prompt, setPrompt] = useState('');
   const [schema, setSchema] = useState('');
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = localStorage.getItem('chatHistory');
+    return savedMessages ? JSON.parse(savedMessages) : [];
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    localStorage.setItem('chatHistory', JSON.stringify(messages));
+  }, [messages]);
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -49,7 +49,7 @@ function App() {
     setLoading(true);
     setError(null);
 
-    const userMessage = { type: 'user', text: prompt };
+    const userMessage = { type: 'user', text: prompt, timestamp: new Date().toISOString() };
     setMessages((prev) => [...prev, userMessage]);
 
     try {
@@ -64,16 +64,21 @@ function App() {
       }
 
       const data = await response.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
       const botMessage = {
         type: 'bot',
-        text: JSON.stringify(data.results, null, 2),
+        text: data.text_result,
+        csv_content: data.csv_content,
+        timestamp: new Date().toISOString(),
       };
-
       setMessages((prev) => [...prev, botMessage]);
     } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { type: 'bot', text: `Error: ${err.message}` },
+        { type: 'bot', text: `Error: ${err.message}`, timestamp: new Date().toISOString() },
       ]);
     } finally {
       setLoading(false);
@@ -88,17 +93,29 @@ function App() {
     }
   };
 
+  const handleDownload = (csvContent, prompt) => {
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `results_${prompt.substring(0, 20).replace(' ', '_')}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(url);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Box
         sx={{
           minHeight: '100vh',
-          background: 'linear-gradient(to bottom right,rgba(2, 43, 140, 0.85),rgb(11, 75, 70))',
+          background: 'linear-gradient(to bottom right, rgba(2, 43, 140, 0.85), rgb(11, 75, 70))',
           py: 4,
         }}
       >
         <Container maxWidth="md">
-          <Typography variant="h4" align="center" color='#fefefe' gutterBottom>
+          <Typography variant="h4" align="center" color="#fefefe" gutterBottom>
             Reso Researcher Chat Agent
           </Typography>
 
@@ -133,7 +150,20 @@ function App() {
                     boxShadow: 1,
                   }}
                 >
-                  {msg.text}
+                  {msg.type === 'bot' && msg.csv_content ? (
+                    <>
+                      {msg.text}
+                      <Link
+                        component="button"
+                        onClick={() => handleDownload(msg.csv_content, messages.find(m => m.type === 'user' && m.timestamp === msg.timestamp)?.text || 'results')}
+                        sx={{ ml: 1, color: '#1976d2', textDecoration: 'underline' }}
+                      >
+                        Download CSV
+                      </Link>
+                    </>
+                  ) : (
+                    msg.text
+                  )}
                 </Box>
               </Box>
             ))}

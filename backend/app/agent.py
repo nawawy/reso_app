@@ -6,6 +6,8 @@ import json
 import spacy
 from utils import chunk_text
 from newspaper import Article
+from io import StringIO
+import csv
 
 from openai import OpenAI
 
@@ -147,9 +149,23 @@ async def run_agent(prompt: str, schema: str):
                 "extracted_schema": data
             })
 
-    print(f"result_articles: {result_articles}")
+    # Generate CSV content
+    output = StringIO()
+    writer = csv.writer(output)
+    writer.writerow(["Source URL", "Title"] + schema_obj)  # Header row
+    for article in result_articles:
+        row = [article["source_url"], article["title"]]
+        row.extend([article["extracted_schema"].get(field, "N/A") for field in schema_obj])
+        writer.writerow(row)
+    csv_content = output.getvalue()
+    output.close()
 
-    formatted_paragraph = (result_articles)
+    # Format text result
+    text_result = "\n".join(
+        [f"Source URL: {article['source_url']}\nTitle: {article['title']}\n" +
+         "\n".join([f"{field}: {article['extracted_schema'].get(field, 'N/A')}" for field in schema_obj])
+         for article in result_articles]
+    ) or "No results available."
 
-    return formatted_paragraph
+    return {"text_result": text_result, "csv_content": csv_content}
 

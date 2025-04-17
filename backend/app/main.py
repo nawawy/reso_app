@@ -17,4 +17,6 @@ app.add_middleware(
 @app.post("/search")
 async def search(query: SearchQuery):
     results = await run_agent(query.prompt, query.schema)
-    return {"results": results}
+    if "error" in results:
+        return {"error": results["error"], "text_result": "", "csv_content": ""}
+    return results
